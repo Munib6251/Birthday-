@@ -10,6 +10,8 @@ body{
     text-align:center;
     font-family:Arial;
     overflow:hidden;
+    margin:0;
+    padding:0;
 }
 
 h1{
@@ -35,6 +37,7 @@ button{
     color:white;
     border:none;
     border-radius:10px;
+    cursor:pointer;
 }
 </style>
 
@@ -44,9 +47,21 @@ function checkPassword(){
     let password = prompt("Enter Password to Open 🎁");
     if(password === "love123"){  // Change your password here
         document.getElementById("content").style.display = "block";
+        startBackgroundMusic();
     } else {
         alert("Wrong Password! ❌");
         window.location.reload();
+    }
+}
+
+// 🎵 Background Music
+function startBackgroundMusic(){
+    let audio = document.getElementById("mysong");
+    let playPromise = audio.play();
+    if (playPromise !== undefined) {
+        playPromise.catch(error => {
+            console.log("Autoplay blocked, user interaction needed.");
+        });
     }
 }
 
@@ -74,7 +89,7 @@ setInterval(()=>{
     setTimeout(()=>{h.remove()},5000);
 },300);
 
-// 💌 Love Button
+// 💌 Surprise Button
 function love(){
     alert("I Love You So Much ❤️");
     firework();
@@ -97,8 +112,8 @@ function love(){
 
 <br><br>
 
-<!-- Audio Section -->
-<audio controls loop>
+<!-- Background Music -->
+<audio id="mysong" loop>
     <source src="birthday.mp3" type="audio/mpeg">
     Your browser does not support the audio element.
 </audio>
@@ -106,4 +121,4 @@ function love(){
 </div>
 
 </body>
-  </html>
+</html>
