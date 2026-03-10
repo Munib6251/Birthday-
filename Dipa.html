@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Happy Birthday My Love</title>
+
+<style>
+body{
+background:pink;
+text-align:center;
+font-family:Arial;
+overflow:hidden;
+}
+
+h1{
+color:red;
+}
+
+.heart{
+position:fixed;
+color:red;
+font-size:20px;
+animation:fall 5s linear infinite;
+}
+
+@keyframes fall{
+0%{transform:translateY(-10vh);}
+100%{transform:translateY(110vh);}
+}
+
+button{
+padding:12px 25px;
+font-size:18px;
+background:red;
+color:white;
+border:none;
+border-radius:10px;
+}
+</style>
+
+</head>
+
+<body>
+
+<h1>Happy Birthday My Love 🎂</h1>
+
+<p>তোমাকে জন্মদিনের অনেক অনেক শুভেচ্ছা ❤️</p>
+<p>তুমি আমার জীবনের সবচেয়ে সুন্দর মানুষ।</p>
+
+<button onclick="love()">Click For Surprise 💌</button>
+
+<br><br>
+
+<audio autoplay loop controls>
+<source src="birthday.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+
+function love(){
+alert("I Love You So Much ❤️");
+firework();
+}
+
+function firework(){
+for(let i=0;i<20;i++){
+let f=document.createElement("div");
+f.innerHTML="🎆";
+f.style.position="fixed";
+f.style.left=Math.random()*100+"%";
+f.style.top=Math.random()*100+"%";
+f.style.fontSize="30px";
+document.body.appendChild(f);
+
+setTimeout(()=>{f.remove()},1000);
+}
+}
+
+setInterval(()=>{
+let h=document.createElement("div");
+h.className="heart";
+h.innerHTML="❤️";
+h.style.left=Math.random()*100+"%";
+document.body.appendChild(h);
+
+setTimeout(()=>{h.remove()},5000);
+},300);
+
+</script>
+
+</body>
+</html>
