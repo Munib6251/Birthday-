@@ -6,9 +6,9 @@
 
 <style>
 body{
-    background:pink;
     text-align:center;
-    font-family:Arial;
+    font-family:Arial, sans-serif;
+    background:pink;
     overflow:hidden;
     margin:0;
     padding:0;
@@ -16,11 +16,11 @@ body{
 
 h1{
     color:red;
+    margin-top:20px;
 }
 
-.heart{
+.heart, .star, .balloon{
     position:fixed;
-    color:red;
     font-size:20px;
     animation:fall 5s linear infinite;
 }
@@ -29,58 +29,136 @@ h1{
     0%{transform:translateY(-10vh);}
     100%{transform:translateY(110vh);}
 }
+
+button{
+    padding:12px 25px;
+    font-size:18px;
+    background:red;
+    color:white;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+.timer{
+    font-size:20px;
+    color:purple;
+    margin-top:10px;
+}
+
+#cake{
+    position:relative;
+    margin:20px auto;
+    width:300px;
+}
+
+#cake img{
+    width:100%;
+}
+
+#knife{
+    width:50px;
+    position:absolute;
+    top:-50px;
+    left:120px;
+    cursor:pointer;
+}
+
+#slice{
+    width:100px;
+    position:absolute;
+    top:0;
+    left:100px;
+    display:none;
+}
+
 </style>
 
 <script>
 // 🔒 Password Protection
 function checkPassword(){
     let password = prompt("Enter Password to Open 🎁");
-    if(password === "love123"){  // Change this password
+    if(password === "love123"){  // Change password
         document.getElementById("content").style.display = "block";
-        startBackgroundMusic();
-        startHearts();
-        startFireworks();
     } else {
         alert("Wrong Password! ❌");
         window.location.reload();
     }
 }
 
-// 🎵 Background Music
-function startBackgroundMusic(){
-    let audio = document.getElementById("mysong");
-    let playPromise = audio.play();
-    if(playPromise !== undefined){
-        playPromise.catch(()=>{console.log("Autoplay blocked on mobile.")});
+// 💥 Firework Function
+function firework(){
+    for(let i=0;i<20;i++){
+        let f=document.createElement("div");
+        f.innerHTML="🎆";
+        f.style.position="fixed";
+        f.style.left=Math.random()*100+"%";
+        f.style.top=Math.random()*100+"%";
+        f.style.fontSize=(Math.random()*30+20)+"px";
+        document.body.appendChild(f);
+        setTimeout(()=>{f.remove()},1000);
     }
 }
 
 // ❤️ Heart Animation
-function startHearts(){
-    setInterval(()=>{
-        let h = document.createElement("div");
-        h.className = "heart";
-        h.innerHTML = "❤️";
-        h.style.left = Math.random()*100 + "%";
-        document.body.appendChild(h);
-        setTimeout(()=>{h.remove()},5000);
-    }, 300);
+setInterval(()=>{
+    let h=document.createElement("div");
+    h.className="heart";
+    h.innerHTML="❤️";
+    h.style.left=Math.random()*100+"%";
+    document.body.appendChild(h);
+    setTimeout(()=>{h.remove()},5000);
+},300);
+
+// ✨ Twinkling Stars
+setInterval(()=>{
+    let s=document.createElement("div");
+    s.className="star";
+    s.innerHTML="⭐";
+    s.style.left=Math.random()*100+"%";
+    s.style.fontSize=(Math.random()*15+5)+"px";
+    document.body.appendChild(s);
+    setTimeout(()=>{s.remove()},2000);
+},200);
+
+// 🎈 Floating Balloons
+setInterval(()=>{
+    let b=document.createElement("div");
+    b.className="balloon";
+    b.innerHTML="🎈";
+    b.style.left=Math.random()*100+"%";
+    b.style.fontSize=(Math.random()*30+10)+"px";
+    document.body.appendChild(b);
+    setTimeout(()=>{b.remove()},4000);
+},500);
+
+// 💌 Love Button
+function love(){
+    alert("I Love You So Much ❤️");
+    firework();
 }
 
-// 💥 Firework Simulation
-function startFireworks(){
-    setInterval(()=>{
-        for(let i=0;i<10;i++){
-            let f = document.createElement("div");
-            f.innerHTML = "🎆";
-            f.style.position = "fixed";
-            f.style.left = Math.random()*100 + "%";
-            f.style.top = Math.random()*100 + "%";
-            f.style.fontSize = "30px";
-            document.body.appendChild(f);
-            setTimeout(()=>{f.remove()},1000);
-        }
-    },2000);
+// ⏰ Countdown Timer
+let countdownDate = new Date("2026-03-15 00:00:00").getTime();
+setInterval(()=>{
+    let now = new Date().getTime();
+    let diff = countdownDate - now;
+    let sec = Math.floor(diff/1000)%60;
+    let min = Math.floor(diff/1000/60)%60;
+    let hr = Math.floor(diff/1000/60/60)%24;
+    let day = Math.floor(diff/1000/60/60/24);
+    document.getElementById("timer").innerText = "Countdown: " + day + "d " + hr + "h " + min + "m " + sec + "s";
+    if(diff < 0){
+        document.getElementById("timer").innerText = "🎉 Happy Birthday! 🎉";
+    }
+},1000);
+
+// 🎂 Cake Cutting Game
+function cutCake(){
+    document.getElementById("slice").style.display="block";
+    firework();
+    let audio = new Audio("cut.mp3"); // optional cake cutting sound
+    audio.play();
 }
 </script>
 
@@ -88,17 +166,31 @@ function startFireworks(){
 
 <body onload="checkPassword()">
 
-<!-- Main Content -->
-<div id="content" style="display:none; text-align:center;">
+<div id="content" style="display:none;">
+
 <h1>Happy Birthday My Love 🎂</h1>
+
 <p>তোমাকে জন্মদিনের অনেক অনেক শুভেচ্ছা ❤️</p>
 <p>তুমি আমার জীবনের সবচেয়ে সুন্দর মানুষ।</p>
 
-<!-- Background Music -->
-<audio id="mysong" loop>
+<button onclick="love()">Click For Surprise 💌</button>
+
+<p class="timer" id="timer"></p>
+
+<!-- Audio -->
+<audio controls loop>
     <source src="birthday.mp3" type="audio/mpeg">
-    Your browser does not support the audio element.
 </audio>
+
+<!-- Cake Section -->
+<div id="cake">
+    <img src="cake.png" id="cakeImg">
+    <img src="slice.png" id="slice">
+    <img src="knife.png" id="knife">
+</div>
+
+<button onclick="cutCake()">Cut the Cake ✂️</button>
+
 </div>
 
 </body>
